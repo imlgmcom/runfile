@@ -1,10 +1,21 @@
-name: Build Run.exe
+name: Build and Release Run.exe
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  # 可选：支持手动触发发布
+  workflow_dispatch:
+    inputs:
+      release_title:
+        description: 'Release Title'
+        required: false
+        default: 'Auto Release'
+      release_notes:
+        description: 'Release Notes'
+        required: false
+        default: 'Auto-generated release from GitHub Actions'
 
 jobs:
   build:
@@ -31,3 +42,20 @@ jobs:
       with:
         name: run.exe
         path: dist/run.exe
+    
+    # 只有在push到master分支时才发布Release
+    - name: Create GitHub Release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: softprops/action-gh-release@v2
+      with:
+        # 使用commit哈希作为版本号
+        tag_name: v1.0.${{ github.sha }}
+        name: Auto Release ${{ github.sha }}
+        body: |
+          Auto-generated release from GitHub Actions
+          Commit: ${{ github.sha }}
+        draft: false
+        prerelease: false
+        files: dist/run.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
