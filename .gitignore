@@ -1,0 +1,32 @@
+# 编译输出目录
+dist/
+
+# 编译临时文件
+build/
+
+# PyInstaller配置文件
+*.spec
+
+# 测试目录
+test_*/
+
+# Python编译文件
+*.pyc
+
+# 日志文件
+*.log
+
+# 系统文件
+Thumbs.db
+.DS_Store
+
+# 环境文件
+.env
+.venv/
+
+# IDE配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
