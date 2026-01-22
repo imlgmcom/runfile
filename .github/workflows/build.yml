@@ -17,6 +17,9 @@ on:
         required: false
         default: 'Auto-generated release from GitHub Actions'
 
+permissions:
+  contents: write  # 允许创建Release和上传资产
+
 jobs:
   build:
     runs-on: windows-latest
